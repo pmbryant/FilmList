@@ -10,16 +10,18 @@ import UIKit
 
 class FilmWatchListTableViewController: UITableViewController {
 
-    var filmWatchList: FilmWatchList = FilmWatchList(name: "Default list")
+    var filmWatchList: FilmWatchList {
+        let fwList = FilmWatchList(name: "Default list")
+        fwList.add( FilmViewingEvent( filmName: "Stage Door", filmYear: 1937, dateFinishedViewing: "2014-06-01" ))
+        fwList.add( FilmViewingEvent( filmName: "Top Hat", filmYear: 1935, dateFinishedViewing: "2013-10-31" ))
+        fwList.add( FilmViewingEvent( filmName: "Roxie Hart", filmYear: 1942, dateFinishedViewing: "2014-08-01" ))
+        return fwList
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        filmWatchList.add(FilmViewingEvent(filmName: "Film #1", filmYear: 1945, dateFinishedViewing: Date()))
-        filmWatchList.add(FilmViewingEvent(filmName: "Film #2", filmYear: 1953, dateFinishedViewing: Date()))
-        filmWatchList.add(FilmViewingEvent(filmName: "Film #3", filmYear: 1933, dateFinishedViewing: Date()))
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -36,7 +38,7 @@ class FilmWatchListTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,10 +53,10 @@ class FilmWatchListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilmViewingEventCell", for: indexPath)
-
         let filmViewingEvent = filmWatchList.events[indexPath.row]
-        // Configure the cell...
-
+        print( "DEBUG: \(filmViewingEvent.viewingDataForDisplay)" )
+        cell.textLabel?.text = filmViewingEvent.film.forDisplay
+        cell.detailTextLabel?.text = filmViewingEvent.viewingDataForDisplay
         return cell
     }
     

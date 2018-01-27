@@ -11,6 +11,9 @@ import Foundation
 struct Film: Codable {
     let name: String
     let releaseYear: Int
+    var forDisplay: String {
+        return "\(name) (\(releaseYear))"
+    }
 }
 
 enum Medium {

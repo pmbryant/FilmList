@@ -13,12 +13,12 @@ class FilmWatchListTableViewController: UITableViewController {
     var filmWatchList: FilmWatchList {
         let fwList = FilmWatchList(name: "Default list")
         
-        var viewingData = ViewingData(dateFinishedAsString: "2017-12-31", medium: .DVD, source: .SELF, nDays: 1, rewatchNumber: 6)
+        var viewingData = ViewingData(dateFinishedAsString: "2017-12-31", medium: .DVD, source: .SELF, rewatchNumber: 6)
         fwList.add( FilmViewingEvent(filmName: "Top Hat", filmYear: 1935, with: viewingData ))
         
         fwList.add( FilmViewingEvent(filmName: "Raiders of the Lost Ark", filmYear: 1981))
         
-        viewingData = ViewingData(dateFinishedAsString: "2018-01-02", medium: .STREAMING, source: .TCM, nDays: 2, rewatchNumber: 1 )
+        viewingData = ViewingData(dateFinishedAsString: "2018-01-02", medium: .STREAMING, source: .TCM, nDays: 2 )
         fwList.add( FilmViewingEvent(filmName: "The Man Who Came to Dinner", filmYear: 1942, with: viewingData ))
         return fwList
     }

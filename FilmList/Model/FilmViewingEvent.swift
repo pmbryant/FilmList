@@ -82,7 +82,7 @@ struct ViewingData {
         return "\(dateForDisplay), \(numberOfSessionsToComplete)s/\(numberOfDaysToComplete)d, \(medium), \(source), \(rewatchForDisplay)"
     }
     
-    init( dateFinished: Date?, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int, nSessions: Int = 0, rewatchNumber: Int = 1) {
+    init( dateFinished: Date?, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int = 1, nSessions: Int = 0, rewatchNumber: Int = 1) {
         self.dateFinishedViewing = dateFinished
         self.medium = medium
         self.source = source
@@ -104,7 +104,7 @@ struct ViewingData {
         }
     }
     
-    init( dateFinishedAsString: String, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int = 1, nSessions: Int = 0, rewatchNumber: Int) {
+    init( dateFinishedAsString: String, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int = 1, nSessions: Int = 0, rewatchNumber: Int = 1) {
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd"
         let dateFinished = df.date(from: dateFinishedAsString)

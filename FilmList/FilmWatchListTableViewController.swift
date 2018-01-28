@@ -10,9 +10,9 @@ import UIKit
 
 class FilmWatchListTableViewController: UITableViewController {
 
-    var filmWatchList: FilmWatchList {
-        let fwList = FilmWatchList(name: "Default list")
-        
+    var filmWatchList: FilmWatchList = FilmWatchList(name: "Default List")
+    
+    func populateFilmWatchList(_ fwList: FilmWatchList) {
         var viewingData = ViewingData(dateFinishedAsString: "2017-12-31", medium: .DVD, source: .SELF, rewatchNumber: 6)
         fwList.add( FilmViewingEvent(filmName: "Top Hat", filmYear: 1935, with: viewingData ))
         
@@ -29,13 +29,13 @@ class FilmWatchListTableViewController: UITableViewController {
         
         viewingData = ViewingData(dateFinishedAsString: "2018-01-10", medium: .STREAMING, source: .WARNER_ARCHIVE_INSTANT, nDays: 1 )
         fwList.add( FilmViewingEvent(filmName: "Judge Hardy and Son", filmYear: 1939, with: viewingData ))
-        
-        return fwList
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        populateFilmWatchList(filmWatchList)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -98,10 +98,8 @@ class FilmWatchListTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            var fwevents = filmWatchList.events
-            print( "About to remove an event.  This many right now: \(fwevents.count)")
-            let removedEvent = fwevents.remove(at: indexPath.row)
-            print( "Removing event: \(removedEvent.forDisplay).  This many left: \(fwevents.count).  In actual object: \(filmWatchList.events.count)")
+            let removedEvent = filmWatchList.events.remove(at: indexPath.row)
+            print( "Removing event: \(removedEvent.forDisplay).  This many left In actual object: \(filmWatchList.total)")
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

@@ -24,5 +24,5 @@ class FilmWatchList {
         events.append(filmViewingEvent)
         events.sort { $0.viewingDateForSorting > $1.viewingDateForSorting }
     }
-    
+        
 }

@@ -25,51 +25,89 @@ class FilmViewingEvent {
         return "Film: \(film.forDisplay), ViewingData: \(viewingDataForDisplay)"
     }
     
-    private init( film: Film, viewingData: ViewingData?) {
+    private init( film: Film, with viewingData: ViewingData?) {
         self.film = film
         self.viewingData = viewingData
     }
     
     convenience init( film: Film ) {
-        self.init( film: film, viewingData: nil )
+        self.init( film: film, with: nil )
     }
     
-    convenience init( film: Film, with viewingData: ViewingData) {
-        self.init(film: film, viewingData: viewingData)
+    convenience init( filmName: String, filmYear: Int ) {
+        let aFilm = Film( name: filmName, releaseYear: filmYear )
+        self.init( film: aFilm )
     }
     
-    convenience init( filmName: String, filmYear: Int, dateFinishedViewing: Date? ) {
+    convenience init( filmName: String, filmYear: Int, with viewingData: ViewingData? ) {
         let aFilm = Film(name: filmName, releaseYear: filmYear)
-        if let dateFinishedViewing = dateFinishedViewing {
-            let someViewingData = ViewingData(dateFinishedViewing: dateFinishedViewing)
-            self.init(film: aFilm, viewingData: someViewingData)
+        if let viewingData = viewingData {
+            self.init(film: aFilm, with: viewingData )
         } else {
             self.init(film: aFilm)
         }
-    }
-    
-    convenience init( filmName: String, filmYear: Int, dateFinishedViewing dateFinishedViewingString: String ) {
-        let formatter = DateFormatter()
-        formatter.dateFormat="yyyy-MM-dd"
-        let dateFinishedViewing = formatter.date(from: dateFinishedViewingString)
-        self.init( filmName: filmName, filmYear: filmYear, dateFinishedViewing: dateFinishedViewing )
     }
     
 }
 
 
 struct ViewingData {
-    let dateFinishedViewing: Date
-    //let numberOfSessionsToComplete: Int
-    //let numberOfDaysToComplete: Int
-    //let medium: Medium
-    //let source: Source
-    //let rewatch: Bool
-    //let rewatchNumber: Int
-    var forDisplay: String {
+    // Constant used to indicate that film has been watched some unknown number of times, but more than once.
+    let REWATCH_INDETERMINATE_NUMBER: Int = 999
+    
+    let medium: Medium
+    let source: Source
+    let numberOfDaysToComplete: Int
+    let dateFinishedViewing: Date?
+    let numberOfSessionsToComplete: Int
+    let rewatch: Bool
+    let rewatchNumber: Int?
+    
+    var dateForDisplay: String {
+        guard let dateFinishedViewing = dateFinishedViewing else { return "unparseable" }
         let df = DateFormatter()
         df.dateFormat = "yyyy-MMM-dd"
-        let dateString = df.string(from: dateFinishedViewing)
-        return "Finished viewing: \(dateString)"
+        return df.string(from: dateFinishedViewing )
+    }
+    
+    var rewatchForDisplay: String {
+        if let rewatchNumber = rewatchNumber {
+            return "#\(rewatchNumber)"
+        } else {
+            return rewatch ? "#N" : "#1"
+        }
+    }
+    
+    var forDisplay: String {
+        return "\(dateForDisplay), \(numberOfSessionsToComplete)s/\(numberOfDaysToComplete)d, \(medium), \(source), \(rewatchForDisplay)"
+    }
+    
+    init( dateFinished: Date?, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int, nSessions: Int = 0, rewatchNumber: Int = 1) {
+        self.dateFinishedViewing = dateFinished
+        self.medium = medium
+        self.source = source
+        self.numberOfDaysToComplete = nDays
+        self.numberOfSessionsToComplete = nSessions <= 0 ? nDays : nSessions
+        switch rewatchNumber {
+        case REWATCH_INDETERMINATE_NUMBER:
+            self.rewatch = true
+            self.rewatchNumber = nil
+        case 1:
+            self.rewatch = false
+            self.rewatchNumber = 1
+        case 2...:
+            self.rewatch = true
+            self.rewatchNumber = rewatchNumber
+        default:
+            self.rewatch = false
+            self.rewatchNumber = nil
+        }
+    }
+    
+    init( dateFinishedAsString: String, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int = 1, nSessions: Int = 0, rewatchNumber: Int) {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        let dateFinished = df.date(from: dateFinishedAsString)
+        self.init(dateFinished: dateFinished, medium: medium, source: source, nDays: nDays, nSessions: nSessions, rewatchNumber: rewatchNumber)
     }
 }

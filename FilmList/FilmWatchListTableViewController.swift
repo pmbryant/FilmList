@@ -12,9 +12,14 @@ class FilmWatchListTableViewController: UITableViewController {
 
     var filmWatchList: FilmWatchList {
         let fwList = FilmWatchList(name: "Default list")
-        fwList.add( FilmViewingEvent( filmName: "Stage Door", filmYear: 1937, dateFinishedViewing: "2014-06-01" ))
-        fwList.add( FilmViewingEvent( filmName: "Top Hat", filmYear: 1935, dateFinishedViewing: "2013-10-31" ))
-        fwList.add( FilmViewingEvent( filmName: "Roxie Hart", filmYear: 1942, dateFinishedViewing: "2014-08-01" ))
+        
+        var viewingData = ViewingData(dateFinishedAsString: "2017-12-31", medium: .DVD, source: .SELF, nDays: 1, rewatchNumber: 6)
+        fwList.add( FilmViewingEvent(filmName: "Top Hat", filmYear: 1935, with: viewingData ))
+        
+        fwList.add( FilmViewingEvent(filmName: "Raiders of the Lost Ark", filmYear: 1981))
+        
+        viewingData = ViewingData(dateFinishedAsString: "2018-01-02", medium: .STREAMING, source: .TCM, nDays: 2, rewatchNumber: 1 )
+        fwList.add( FilmViewingEvent(filmName: "The Man Who Came to Dinner", filmYear: 1942, with: viewingData ))
         return fwList
     }
     
@@ -26,14 +31,25 @@ class FilmWatchListTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - Delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let filmViewingEvent = filmWatchList.events[indexPath.row]
+        print( "didSelectRowAt: \(indexPath.row) :: \(filmViewingEvent.forDisplay)")
+    }
 
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -44,12 +60,11 @@ class FilmWatchListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return filmWatchList.total
+            return filmWatchList.events.count
         default:
             return 0
         }
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilmViewingEventCell", for: indexPath)
@@ -57,6 +72,7 @@ class FilmWatchListTableViewController: UITableViewController {
         print( "DEBUG: \(filmViewingEvent.viewingDataForDisplay)" )
         cell.textLabel?.text = filmViewingEvent.film.forDisplay
         cell.detailTextLabel?.text = filmViewingEvent.viewingDataForDisplay
+        cell.showsReorderControl = true
         return cell
     }
     
@@ -69,24 +85,21 @@ class FilmWatchListTableViewController: UITableViewController {
     }
     */
 
-    /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            let removedEvent = filmWatchList.events.remove(at: indexPath.row)
+            print( "Removing event: \(removedEvent.forDisplay)")
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
 
-    /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+        let movedEvent = filmWatchList.events.remove(at: fromIndexPath.row)
+        filmWatchList.events.insert(movedEvent, at: to.row)
+        tableView.reloadData()
     }
-    */
 
     /*
     // Override to support conditional rearranging of the table view.

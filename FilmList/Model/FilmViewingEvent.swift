@@ -14,6 +14,15 @@ class FilmViewingEvent {
     var documented: Bool {
         return viewingData != nil
     }
+    var viewingDateForSorting: String {
+        if let dateFinished = viewingData?.dateFinishedViewing {
+            let df = DateFormatter()
+            df.dateFormat = "yyyy-MM-dd"
+            return df.string(from: dateFinished)
+        } else {
+            return "1900"
+        }
+    }
     var viewingDataForDisplay: String {
         if let viewingData = viewingData {
             return viewingData.forDisplay
@@ -78,8 +87,16 @@ struct ViewingData {
         }
     }
     
+    var sessionsForDisplay: String {
+        if ( numberOfSessionsToComplete == numberOfDaysToComplete ) {
+            return "\(numberOfDaysToComplete)d"
+        } else {
+            return "\(numberOfSessionsToComplete)s/\(numberOfDaysToComplete)d"
+        }
+    }
+    
     var forDisplay: String {
-        return "\(dateForDisplay), \(numberOfSessionsToComplete)s/\(numberOfDaysToComplete)d, \(medium), \(source), \(rewatchForDisplay)"
+        return "\(dateForDisplay), \(rewatchForDisplay), \(sessionsForDisplay), \(medium.rawValue)-\(source.rawValue)"
     }
     
     init( dateFinished: Date?, medium: Medium = .OTHER, source: Source = .OTHER, nDays: Int = 1, nSessions: Int = 0, rewatchNumber: Int = 1) {

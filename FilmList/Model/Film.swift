@@ -16,10 +16,19 @@ struct Film: Codable {
     }
 }
 
-enum Medium {
-    case DVD, BLURAY, STREAMING, THEATER, OTHER
+enum Medium: String {
+    case DVD = "DVD"
+    case BLURAY = "Bluray"
+    case STREAMING = "Online"
+    case THEATER = "Theater"
+    case OTHER = "Other"
 }
 
-enum Source {
-    case SELF, NETFLIX, AMAZON, WARNER_ARCHIVE_INSTANT, TCM, OTHER
+enum Source: String {
+    case SELF = "B&B"
+    case NETFLIX = "Netflix"
+    case AMAZON = "Amazon"
+    case WARNER_ARCHIVE_INSTANT = "WAI"
+    case TCM = "TCM"
+    case OTHER = "Other"
 }

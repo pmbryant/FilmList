@@ -22,6 +22,7 @@ class FilmWatchList {
     
     func add(_ filmViewingEvent: FilmViewingEvent) {
         events.append(filmViewingEvent)
+        events.sort { $0.viewingDateForSorting > $1.viewingDateForSorting }
     }
     
 }

@@ -20,6 +20,16 @@ class FilmWatchListTableViewController: UITableViewController {
         
         viewingData = ViewingData(dateFinishedAsString: "2018-01-02", medium: .STREAMING, source: .TCM, nDays: 2 )
         fwList.add( FilmViewingEvent(filmName: "The Man Who Came to Dinner", filmYear: 1942, with: viewingData ))
+        
+        viewingData = ViewingData(dateFinishedAsString: "2018-01-04", medium: .STREAMING, source: .TCM, nDays: 2 )
+        fwList.add( FilmViewingEvent(filmName: "Ruggles of Red Gap", filmYear: 1935, with: viewingData ))
+        
+        viewingData = ViewingData(dateFinishedAsString: "2017-12-09", medium: .STREAMING, source: .TCM, nDays: 5, nSessions: 4 )
+        fwList.add( FilmViewingEvent(filmName: "Since You Went Away", filmYear: 1944, with: viewingData ))
+        
+        viewingData = ViewingData(dateFinishedAsString: "2018-01-10", medium: .STREAMING, source: .WARNER_ARCHIVE_INSTANT, nDays: 1 )
+        fwList.add( FilmViewingEvent(filmName: "Judge Hardy and Son", filmYear: 1939, with: viewingData ))
+        
         return fwList
     }
     
@@ -88,8 +98,10 @@ class FilmWatchListTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let removedEvent = filmWatchList.events.remove(at: indexPath.row)
-            print( "Removing event: \(removedEvent.forDisplay)")
+            var fwevents = filmWatchList.events
+            print( "About to remove an event.  This many right now: \(fwevents.count)")
+            let removedEvent = fwevents.remove(at: indexPath.row)
+            print( "Removing event: \(removedEvent.forDisplay).  This many left: \(fwevents.count).  In actual object: \(filmWatchList.events.count)")
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

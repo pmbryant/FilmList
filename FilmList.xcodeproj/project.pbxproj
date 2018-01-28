@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BB449B46201D877500972B26 /* AddEditFilmViewingEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB449B45201D877500972B26 /* AddEditFilmViewingEventTableViewController.swift */; };
-		BB449B48201E5F2600972B26 /* ArrayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB449B47201E5F2600972B26 /* ArrayPickerView.swift */; };
 		BBA0785A2014FFEC00B17BC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA078592014FFEC00B17BC5 /* AppDelegate.swift */; };
 		BBA0785F2014FFEC00B17BC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBA0785D2014FFEC00B17BC5 /* Main.storyboard */; };
 		BBA078612014FFEC00B17BC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBA078602014FFEC00B17BC5 /* Assets.xcassets */; };
@@ -21,7 +20,6 @@
 
 /* Begin PBXFileReference section */
 		BB449B45201D877500972B26 /* AddEditFilmViewingEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditFilmViewingEventTableViewController.swift; sourceTree = "<group>"; };
-		BB449B47201E5F2600972B26 /* ArrayPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayPickerView.swift; sourceTree = "<group>"; };
 		BBA078562014FFEC00B17BC5 /* FilmList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBA078592014FFEC00B17BC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBA0785E2014FFEC00B17BC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 				BBA0788F2015047100B17BC5 /* Model */,
 				BBA078592014FFEC00B17BC5 /* AppDelegate.swift */,
 				BBA0785D2014FFEC00B17BC5 /* Main.storyboard */,
-				BB449B47201E5F2600972B26 /* ArrayPickerView.swift */,
 				BB449B45201D877500972B26 /* AddEditFilmViewingEventTableViewController.swift */,
 				BBA0789820151E2A00B17BC5 /* FilmWatchListTableViewController.swift */,
 				BBA078602014FFEC00B17BC5 /* Assets.xcassets */,
@@ -159,7 +156,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB449B48201E5F2600972B26 /* ArrayPickerView.swift in Sources */,
 				BBA0788E2015046400B17BC5 /* Film.swift in Sources */,
 				BBA0788C2015014200B17BC5 /* FilmWatchList.swift in Sources */,
 				BB449B46201D877500972B26 /* AddEditFilmViewingEventTableViewController.swift in Sources */,

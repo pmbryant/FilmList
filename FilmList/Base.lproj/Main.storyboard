@@ -257,28 +257,43 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="SAc-RI-dey" detailTextLabel="aaH-2l-82B" style="IBUITableViewCellStyleValue1" id="DCT-z6-tC7">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="DCT-z6-tC7">
                                         <rect key="frame" x="0.0" y="451" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DCT-z6-tC7" id="6fd-gq-2O4">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Medium &amp; Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SAc-RI-dey">
-                                                    <rect key="frame" x="16" y="14" width="115" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="DVD" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aaH-2l-82B">
-                                                    <rect key="frame" x="330" y="14" width="29" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pgy-7Z-gmB">
+                                                    <rect key="frame" x="0.0" y="0.0" width="365" height="43.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Medium &amp; Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8I-cz-aYs">
+                                                            <rect key="frame" x="0.0" y="0.0" width="247.5" height="43.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Medium" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsK-h4-UtL">
+                                                            <rect key="frame" x="257.5" y="0.0" width="52" height="43.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uD-EO-T88">
+                                                            <rect key="frame" x="319.5" y="0.0" width="45.5" height="43.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pgy-7Z-gmB" firstAttribute="top" secondItem="6fd-gq-2O4" secondAttribute="top" id="A7r-iS-9uR"/>
+                                                <constraint firstAttribute="trailing" secondItem="pgy-7Z-gmB" secondAttribute="trailing" constant="10" id="MTR-jm-qCs"/>
+                                                <constraint firstAttribute="bottom" secondItem="pgy-7Z-gmB" secondAttribute="bottom" id="gxM-hi-LPR"/>
+                                                <constraint firstItem="pgy-7Z-gmB" firstAttribute="leading" secondItem="6fd-gq-2O4" secondAttribute="leading" id="vUV-8e-FaR"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1ih-BF-zTj">
@@ -345,13 +360,14 @@
                         <outlet property="dateFinishedDatePicker" destination="M6N-hc-Bwe" id="dM7-dj-EMU"/>
                         <outlet property="dateFinishedLabel" destination="3Os-vA-McE" id="LYn-gE-Cqz"/>
                         <outlet property="filmTitleField" destination="4T6-OM-i4x" id="kbn-tr-tGL"/>
-                        <outlet property="mediumSourceLabel" destination="aaH-2l-82B" id="Rme-Ct-UN0"/>
+                        <outlet property="mediumLabel" destination="wsK-h4-UtL" id="8ks-Tt-Q71"/>
                         <outlet property="mediumSourcePicker" destination="q1P-YX-V4e" id="6sJ-ef-zW8"/>
                         <outlet property="notesField" destination="y9h-xd-dfq" id="DXA-r4-7Kb"/>
                         <outlet property="numberOfDaysLabel" destination="puo-Ee-mUJ" id="QjV-Pv-XNw"/>
                         <outlet property="numberOfDaysStepper" destination="ZYn-gU-7ho" id="exs-k1-ZdB"/>
                         <outlet property="numberOfSessionsLabel" destination="u2x-jQ-9RN" id="Jml-CT-lc4"/>
                         <outlet property="numberOfSessionsStepper" destination="uRZ-X4-ODy" id="PdE-gS-OgL"/>
+                        <outlet property="sourceLabel" destination="4uD-EO-T88" id="VGt-Ji-7kv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vm4-X0-Pnt" userLabel="First Responder" sceneMemberID="firstResponder"/>

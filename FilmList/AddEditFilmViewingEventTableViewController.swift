@@ -38,7 +38,8 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     @IBOutlet weak var numberOfSessionsStepper: UIStepper!
     @IBOutlet weak var numberOfSessionsLabel: UILabel!
     
-    @IBOutlet weak var mediumSourceLabel: UILabel!
+    @IBOutlet weak var mediumLabel: UILabel!
+    @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var mediumSourcePicker: UIPickerView!
     
     override func viewDidLoad() {
@@ -159,13 +160,14 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         let dateFinished = dateFinishedDatePicker.date
         let nDays = numberOfDaysLabel.text
         let nSessions = numberOfSessionsLabel.text
-        let mediumSource = mediumSourceLabel.text
+        let medium = mediumLabel.text
+        let source = sourceLabel.text
         print( """
             doneButtonPressed: title in text field = \(filmName)
             notes field = \(notes).
             dateFinished=\(dateFinished)
             nDays=\(nDays ?? "nil"), nSessions=\(nSessions ?? "nil")
-            mediumSource=\(mediumSource ?? "nil")
+            medium=\(medium ?? "nil"), source=\(source ?? "nil")
             """)
     }
     
@@ -186,11 +188,12 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let mediumRow = pickerView.selectedRow(inComponent: 0)
-        let sourceRow = pickerView.selectedRow(inComponent: 1)
-        let medium = mediumSourcePickerData[0][mediumRow]
-        let source = mediumSourcePickerData[1][sourceRow]
-        mediumSourceLabel.text = "\(medium) - \(source)"
+        let mediumRow = pickerView.selectedRow(inComponent: mediumPickerIndex)
+        let sourceRow = pickerView.selectedRow(inComponent: sourcePickerIndex)
+        let medium = mediumSourcePickerData[mediumPickerIndex][mediumRow]
+        let source = mediumSourcePickerData[sourcePickerIndex][sourceRow]
+        mediumLabel.text = "\(medium)"
+        sourceLabel.text = "\(source)"
     }
     
 

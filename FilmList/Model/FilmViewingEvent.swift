@@ -64,10 +64,10 @@ struct ViewingData {
     // Constant used to indicate that film has been watched some unknown number of times, but more than once.
     let REWATCH_INDETERMINATE_NUMBER: Int = 999
     
+    let dateFinishedViewing: Date?
     let medium: Medium
     let source: Source
     let numberOfDaysToComplete: Int
-    let dateFinishedViewing: Date?
     let numberOfSessionsToComplete: Int
     let rewatch: Bool
     let rewatchNumber: Int?

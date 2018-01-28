@@ -41,7 +41,7 @@ class FilmWatchListTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,10 +51,12 @@ class FilmWatchListTableViewController: UITableViewController {
     
     // MARK: - Delegate
     
+    /*
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let filmViewingEvent = filmWatchList.events[indexPath.row]
         print( "didSelectRowAt: \(indexPath.row) :: \(filmViewingEvent.forDisplay)")
     }
+    */
 
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         return .delete
@@ -119,14 +121,17 @@ class FilmWatchListTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "EditFilmViewingEvent" {
+            let indexPath = tableView.indexPathForSelectedRow!
+            let addEditController = segue.destination as! AddEditFilmViewingEventTableViewController
+            addEditController.filmViewingEvent = filmWatchList.events[indexPath.row]
+        }
     }
-    */
+    
 
 }

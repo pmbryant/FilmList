@@ -11,6 +11,7 @@ import Foundation
 class FilmViewingEvent {
     let film: Film
     var viewingData: ViewingData?
+    var notes: String = ""
     var documented: Bool {
         return viewingData != nil
     }

@@ -128,8 +128,9 @@ class FilmWatchListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditFilmViewingEvent" {
             let indexPath = tableView.indexPathForSelectedRow!
-            let addEditController = segue.destination as! AddEditFilmViewingEventTableViewController
-            addEditController.filmViewingEvent = filmWatchList.events[indexPath.row]
+            let navController = segue.destination as! UINavigationController
+            let addEditTableViewController = navController.topViewController as! AddEditFilmViewingEventTableViewController
+            addEditTableViewController.filmViewingEvent = filmWatchList.events[indexPath.row]
         }
     }
     

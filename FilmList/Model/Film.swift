@@ -22,6 +22,7 @@ enum Medium: String {
     case STREAMING = "Online"
     case THEATER = "Theater"
     case OTHER = "Other"
+    static let allValues = [ DVD, BLURAY, STREAMING, THEATER, OTHER ].map() { $0.rawValue }
 }
 
 enum Source: String {
@@ -31,4 +32,5 @@ enum Source: String {
     case WARNER_ARCHIVE_INSTANT = "WAI"
     case TCM = "TCM"
     case OTHER = "Other"
+    static let allValues = [ SELF, NETFLIX, AMAZON, WARNER_ARCHIVE_INSTANT, TCM, OTHER ].map() { $0.rawValue }
 }

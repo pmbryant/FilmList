@@ -11,8 +11,7 @@ import UIKit
 class AddEditFilmViewingEventTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     var filmViewingEvent: FilmViewingEvent?
-    var mediumPickerData: [String] = []
-    var sourcePickerData: [String] = []
+    var mediumSourcePickerData: [[String]] = [[]]
     
     let dateFinishedDatePickerCellIndexPath = IndexPath(row: 1, section: 1)
     var isDateFinishedDatePickerVisible: Bool = false {
@@ -20,18 +19,12 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
             dateFinishedDatePicker.isHidden = !isDateFinishedDatePickerVisible
         }
     }
-    let mediumPickerTag = 0
-    let sourcePickerTag = 1
+    let mediumPickerIndex = 0
+    let sourcePickerIndex = 1
     let mediumPickerCellIndexPath = IndexPath( row: 3, section: 3 )
-    let sourcePickerCellIndexPath = IndexPath( row: 5, section: 3 )
-    var isMediumPickerVisible: Bool = false {
+    var isMediumSourcePickerVisible: Bool = false {
         didSet {
-            mediumPicker.isHidden = !isMediumPickerVisible
-        }
-    }
-    var isSourcePickerVisible: Bool = false {
-        didSet {
-            sourcePicker.isHidden = !isSourcePickerVisible
+            mediumSourcePicker.isHidden = !isMediumSourcePickerVisible
         }
     }
     
@@ -45,10 +38,8 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     @IBOutlet weak var numberOfSessionsStepper: UIStepper!
     @IBOutlet weak var numberOfSessionsLabel: UILabel!
     
-    @IBOutlet weak var mediumLabel: UILabel!
-    @IBOutlet weak var mediumPicker: UIPickerView!
-    @IBOutlet weak var sourceLabel: UILabel!
-    @IBOutlet weak var sourcePicker: UIPickerView!
+    @IBOutlet weak var mediumSourceLabel: UILabel!
+    @IBOutlet weak var mediumSourcePicker: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,13 +49,10 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
             notesField.text = filmViewingEvent.notes
         }
         
-        mediumPickerData = Medium.allValues
-        self.mediumPicker.delegate = self
-        self.mediumPicker.dataSource = self
+        self.mediumSourcePicker.delegate = self
+        self.mediumSourcePicker.dataSource = self
         
-        sourcePickerData = Source.allValues
-        self.sourcePicker.delegate = self
-        self.mediumPicker.dataSource = self
+        mediumSourcePickerData = [ Medium.allValues, Source.allValues ]
         
         // Set latest date to allow use for 'dateFinishedWatching' date picker
         let maxDaysAheadAllowed = 7
@@ -122,20 +110,13 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         switch ( indexPath.section, indexPath.row ) {
         case ( dateFinishedDatePickerCellIndexPath.section, dateFinishedDatePickerCellIndexPath.row - 1 ):
             isDateFinishedDatePickerVisible = true
-            isMediumPickerVisible = false
-            isSourcePickerVisible = false
+            isMediumSourcePickerVisible = false
         case ( mediumPickerCellIndexPath.section, mediumPickerCellIndexPath.row - 1 ):
             isDateFinishedDatePickerVisible = false
-            isMediumPickerVisible = true
-            isSourcePickerVisible = false
-        case ( sourcePickerCellIndexPath.section, sourcePickerCellIndexPath.row - 1 ):
-            isDateFinishedDatePickerVisible = false
-            isMediumPickerVisible = false
-            isSourcePickerVisible = true
+            isMediumSourcePickerVisible = true
         default:
             isDateFinishedDatePickerVisible = false
-            isMediumPickerVisible = false
-            isSourcePickerVisible = false
+            isMediumSourcePickerVisible = false
         }
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -147,9 +128,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         case ( dateFinishedDatePickerCellIndexPath.section, dateFinishedDatePickerCellIndexPath.row ):
             height = isDateFinishedDatePickerVisible ? 130.0 : 0.0
         case ( mediumPickerCellIndexPath.section, mediumPickerCellIndexPath.row ):
-            height = isMediumPickerVisible ? 70.0 : 0.0
-        case ( sourcePickerCellIndexPath.section, sourcePickerCellIndexPath.row ):
-            height = isSourcePickerVisible ? 70.0 : 0.0
+            height = isMediumSourcePickerVisible ? 70.0 : 0.0
         default:
             height = 44.0
         }
@@ -180,61 +159,38 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         let dateFinished = dateFinishedDatePicker.date
         let nDays = numberOfDaysLabel.text
         let nSessions = numberOfSessionsLabel.text
-        let medium = mediumLabel.text
-        let source = sourceLabel.text
+        let mediumSource = mediumSourceLabel.text
         print( """
             doneButtonPressed: title in text field = \(filmName)
             notes field = \(notes).
             dateFinished=\(dateFinished)
             nDays=\(nDays ?? "nil"), nSessions=\(nSessions ?? "nil")
-            medium=\(medium ?? "nil"), source=\(source ?? "nil")
+            mediumSource=\(mediumSource ?? "nil")
             """)
     }
     
     // MARK: - UIPickerViewDataSource protocol
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        switch pickerView.tag {
-        case mediumPickerTag, sourcePickerTag:
-            return 1
-        default:
-            fatalError( "Unexpected picker view tag: \(pickerView.tag)")
-        }
+        return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView.tag {
-        case mediumPickerTag:
-            return mediumPickerData.count
-        case sourcePickerTag:
-            return sourcePickerData.count
-        default:
-            fatalError( "Unexpected picker view tag: \(pickerView.tag)")
-        }
+        return mediumSourcePickerData[component].count
     }
     
     // MARK: - UIPickerViewDelegate
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView.tag {
-        case mediumPickerTag:
-            return mediumPickerData[row]
-        case sourcePickerTag:
-            return sourcePickerData[row]
-        default:
-            fatalError( "Unexpected picker view tag: \(pickerView.tag)")
-        }
+        return mediumSourcePickerData[component][row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView.tag {
-        case mediumPickerTag:
-            mediumLabel.text = mediumPickerData[row]
-        case sourcePickerTag:
-            sourceLabel.text = sourcePickerData[row]
-        default:
-            fatalError( "Unexpected picker view tag: \(pickerView.tag)")
-        }
+        let mediumRow = pickerView.selectedRow(inComponent: 0)
+        let sourceRow = pickerView.selectedRow(inComponent: 1)
+        let medium = mediumSourcePickerData[0][mediumRow]
+        let source = mediumSourcePickerData[1][sourceRow]
+        mediumSourceLabel.text = "\(medium) - \(source)"
     }
     
 

@@ -42,6 +42,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     @IBOutlet weak var mediumLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var mediumSourcePicker: UIPickerView!
+    @IBOutlet weak var undocPriorWatchesSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -177,6 +178,10 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         updateDateView()
     }
     
+    @IBAction func undocPriorWatchesSwitchChanged(_ sender: Any) {
+        print( "Undoc. Prior Watches changed - not implemented yet!")
+    }
+    
     @IBAction func doneButtonPressed(_ sender: Any) {
         let filmName = filmTitleField.text ?? "No text in field yet"
         let releaseYear = releaseYearField.text ?? "No text in field yet"
@@ -186,6 +191,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         let nSessions = numberOfSessionsLabel.text
         let medium = mediumLabel.text
         let source = sourceLabel.text
+        let undocPriorWatchesState = undocPriorWatchesSwitch.isOn
         print( """
             doneButtonPressed: title = \(filmName)
             year = \(releaseYear)
@@ -193,6 +199,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
             dateFinished=\(dateFinished)
             nDays=\(nDays ?? "nil"), nSessions=\(nSessions ?? "nil")
             medium=\(medium ?? "nil"), source=\(source ?? "nil")
+            undocPriorWatches=\(undocPriorWatchesState)
             """)
     }
     

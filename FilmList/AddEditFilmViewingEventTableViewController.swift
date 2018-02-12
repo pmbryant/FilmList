@@ -60,6 +60,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         if let filmViewingEvent = filmViewingEvent {
             filmTitleField.text = filmViewingEvent.film.name
             releaseYearField.text = String(filmViewingEvent.film.releaseYear)
+            notesField.text = filmViewingEvent.notes
             if let dateFinishedViewing = filmViewingEvent.viewingData?.dateFinishedViewing {
                 dateFinishedDatePicker.setDate(dateFinishedViewing, animated: false)
             }
@@ -72,7 +73,11 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
                 mediumLabel.text = mediumText
                 sourceLabel.text = sourceText
             }
-            notesField.text = filmViewingEvent.notes
+            if let days = filmViewingEvent.viewingData?.numberOfDaysToComplete,
+               let sessions = filmViewingEvent.viewingData?.numberOfSessionsToComplete {
+                numberOfDaysStepper.value = Double(days)
+                numberOfSessionsStepper.value = Double(sessions)
+            }
         }
 
         updateDateView()

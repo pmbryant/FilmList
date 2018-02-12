@@ -21,7 +21,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     }
     let mediumPickerIndex = 0
     let sourcePickerIndex = 1
-    let mediumPickerCellIndexPath = IndexPath( row: 3, section: 3 )
+    let mediumPickerCellIndexPath = IndexPath( row: 3, section: 1 )
     var isMediumSourcePickerVisible: Bool = false {
         didSet {
             mediumSourcePicker.isHidden = !isMediumSourcePickerVisible
@@ -29,6 +29,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     }
     
     @IBOutlet weak var filmTitleField: UITextField!
+    @IBOutlet weak var releaseYearField: UITextField!
     @IBOutlet weak var notesField: UITextField!
     @IBOutlet weak var dateFinishedLabel: UILabel!
     @IBOutlet weak var dateFinishedDatePicker: UIDatePicker!
@@ -45,14 +46,8 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let filmViewingEvent = filmViewingEvent {
-            filmTitleField.text = filmViewingEvent.film.name
-            notesField.text = filmViewingEvent.notes
-        }
-        
         self.mediumSourcePicker.delegate = self
         self.mediumSourcePicker.dataSource = self
-        
         mediumSourcePickerData = [ Medium.allValues, Source.allValues ]
         
         // Set latest date to allow use for 'dateFinishedWatching' date picker
@@ -60,7 +55,26 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         let midnightThisMorning = Calendar.current.startOfDay(for: Date())
         let aFewDaysFromNow = Calendar.current.date(byAdding: .day, value: maxDaysAheadAllowed, to: midnightThisMorning)
         dateFinishedDatePicker.maximumDate = aFewDaysFromNow
-        
+ 
+        // Prefill in values for the selected event, if it exists
+        if let filmViewingEvent = filmViewingEvent {
+            filmTitleField.text = filmViewingEvent.film.name
+            releaseYearField.text = String(filmViewingEvent.film.releaseYear)
+            if let dateFinishedViewing = filmViewingEvent.viewingData?.dateFinishedViewing {
+                dateFinishedDatePicker.setDate(dateFinishedViewing, animated: false)
+            }
+            if let mediumText = filmViewingEvent.viewingData?.medium.rawValue,
+               let sourceText = filmViewingEvent.viewingData?.source.rawValue,
+               let mIndex = Medium.allValues.index(of: mediumText),
+               let sIndex = Source.allValues.index(of: sourceText) {
+                mediumSourcePicker.selectRow(mIndex, inComponent: mediumPickerIndex, animated: false)
+                mediumSourcePicker.selectRow(sIndex, inComponent: sourcePickerIndex, animated: false)
+                mediumLabel.text = mediumText
+                sourceLabel.text = sourceText
+            }
+            notesField.text = filmViewingEvent.notes
+        }
+
         updateDateView()
         updateDaysSessions()
 
@@ -89,10 +103,14 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     
     // MARK: - Convenience methods
     
-    func updateDateView() {
+    func getDateFormatter() -> DateFormatter {
         let df = DateFormatter()
         df.dateStyle = .medium
-        dateFinishedLabel.text = df.string(from: dateFinishedDatePicker.date)
+        return df
+    }
+    
+    func updateDateView() {
+        dateFinishedLabel.text = getDateFormatter().string(from: dateFinishedDatePicker.date)
     }
     
     func updateDaysSessions() {
@@ -127,9 +145,9 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         var height: CGFloat = 44.0
         switch ( indexPath.section, indexPath.row ) {
         case ( dateFinishedDatePickerCellIndexPath.section, dateFinishedDatePickerCellIndexPath.row ):
-            height = isDateFinishedDatePickerVisible ? 130.0 : 0.0
+            height = isDateFinishedDatePickerVisible ? 100.0 : 0.0
         case ( mediumPickerCellIndexPath.section, mediumPickerCellIndexPath.row ):
-            height = isMediumSourcePickerVisible ? 70.0 : 0.0
+            height = isMediumSourcePickerVisible ? 100.0 : 0.0
         default:
             height = 44.0
         }
@@ -156,6 +174,7 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
     
     @IBAction func doneButtonPressed(_ sender: Any) {
         let filmName = filmTitleField.text ?? "No text in field yet"
+        let releaseYear = releaseYearField.text ?? "No text in field yet"
         let notes = notesField.text ?? "No text in field yet"
         let dateFinished = dateFinishedDatePicker.date
         let nDays = numberOfDaysLabel.text
@@ -163,7 +182,8 @@ class AddEditFilmViewingEventTableViewController: UITableViewController, UIPicke
         let medium = mediumLabel.text
         let source = sourceLabel.text
         print( """
-            doneButtonPressed: title in text field = \(filmName)
+            doneButtonPressed: title = \(filmName)
+            year = \(releaseYear)
             notes field = \(notes).
             dateFinished=\(dateFinished)
             nDays=\(nDays ?? "nil"), nSessions=\(nSessions ?? "nil")
